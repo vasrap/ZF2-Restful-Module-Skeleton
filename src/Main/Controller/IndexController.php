@@ -7,6 +7,15 @@ use Zend\Mvc\Controller\RestfulController;
 class IndexController extends RestfulController
 {
 	/**
+	 * The index action
+	 *
+	 * @return mixed
+	 */
+	public function indexAction() {
+		// TODO: Implement indexAction() method.
+	}
+
+	/**
 	 * Return list of resources
 	 *
 	 * @return mixed

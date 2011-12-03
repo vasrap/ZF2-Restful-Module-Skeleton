@@ -22,16 +22,6 @@ return array(
 		),
 	),
 	'routes' => array(
-		'restful' => array(
-			'type' => 'Zend\Mvc\Router\Http\Segment',
-			'options' => array(
-				'route' => '/:controller[.:formatter][/:id]',
-				'constraints' => array(
-					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-					'formatter' => '[a-zA-Z][a-zA-Z0-9_-]*',
-				),
-			),
-		),
 		'action' => array(
 			'type' => 'Zend\Mvc\Router\Http\Segment',
 			'options' => array(
@@ -39,6 +29,16 @@ return array(
 				'constraints' => array(
 					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
 					'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
+				),
+			),
+		),
+		'restful' => array(
+			'type' => 'Zend\Mvc\Router\Http\Segment',
+			'options' => array(
+				'route' => '/:controller[.:formatter][/:id]',
+				'constraints' => array(
+					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+					'formatter' => '[a-zA-Z][a-zA-Z0-9_-]*',
 				),
 			),
 		),

@@ -54,6 +54,10 @@ class Listener implements ListenerAggregate
 	public function registerStaticListeners(StaticEventCollection $events, $locator)
 	{
 		$ident = 'Zend\Mvc\Controller\RestfulController';
+		$handler = $events->attach($ident, 'dispatch', array($this, 'renderActionView'), -50);
+		$this->staticListeners[] = array($ident, $handler);
+
+		$ident = 'Zend\Mvc\Controller\RestfulController';
 		$handler = $events->attach($ident, 'dispatch', array($this, 'renderRestfulView'), -50);
 		$this->staticListeners[] = array($ident, $handler);
 
@@ -115,9 +119,14 @@ class Listener implements ListenerAggregate
 		}
 
 		$routeMatch = $e->getRouteMatch();
-		$controller = $routeMatch->getParam('controller', 'index');
+		$controller = $routeMatch->getParam('controller', false);
 		$action = $routeMatch->getParam('action', 'index');
 		$script = $controller . '/' . $action . '.phtml';
+
+		$formatter = $routeMatch->getParam('formatter', false);
+		if ($formatter) {
+			return;
+		}
 
 		$vars = $e->getResult();
 		if (is_scalar($vars)) {
