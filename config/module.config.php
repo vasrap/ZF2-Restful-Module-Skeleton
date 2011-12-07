@@ -5,6 +5,9 @@ return array(
 	'di' => array(
 		'instance' => array(
 			'alias' => array(
+				'info' => 'Main\Controller\InfoController',
+				'category' => 'Main\Controller\CategoryController',
+				'thumb' => 'Main\Controller\ThumbController',
 				'index' => 'Main\Controller\IndexController',
 				'error' => 'Main\Controller\ErrorController',
 				'view' => 'Zend\View\PhpRenderer',
@@ -22,6 +25,17 @@ return array(
 		),
 	),
 	'routes' => array(
+		'restful' => array(
+			'type' => 'Zend\Mvc\Router\Http\Segment',
+			'options' => array(
+				'route' => '/:controller[.:formatter][/:id]',
+				'constraints' => array(
+					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
+					'formatter' => '[a-zA-Z][a-zA-Z0-9_-]*',
+					'id' => '[a-zA-Z][a-zA-Z0-9_-]*'
+				),
+			),
+		),
 		'action' => array(
 			'type' => 'Zend\Mvc\Router\Http\Segment',
 			'options' => array(
@@ -30,16 +44,10 @@ return array(
 					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
 					'action' => '[a-zA-Z][a-zA-Z0-9_-]*',
 				),
-			),
-		),
-		'restful' => array(
-			'type' => 'Zend\Mvc\Router\Http\Segment',
-			'options' => array(
-				'route' => '/:controller[.:formatter][/:id]',
-				'constraints' => array(
-					'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
-					'formatter' => '[a-zA-Z][a-zA-Z0-9_-]*',
-				),
+				'defaults' => array(
+					'controller' => 'index',
+					'action' => 'index',
+				)
 			),
 		),
 	),

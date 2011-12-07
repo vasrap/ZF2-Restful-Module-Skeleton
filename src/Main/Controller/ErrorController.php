@@ -4,13 +4,13 @@ namespace Main\Controller;
 
 use Zend\Mvc\Controller\ActionController;
 
-class ErrorController extends ActionController
-{
+class ErrorController extends ActionController {
+
 	const ERROR_NO_ROUTE = 404;
 	const ERROR_NO_CONTROLLER = 404;
 
-	public function indexAction()
-	{
+	public function indexAction() {
+
 		$error = $this->request->getMetadata('error', false);
 		if (!$error) {
 			$error = array(

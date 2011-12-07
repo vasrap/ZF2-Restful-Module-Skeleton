@@ -12,38 +12,38 @@ use ArrayAccess,
 	Zend\Mvc\MvcEvent,
 	Zend\View\Renderer;
 
-class Listener implements ListenerAggregate
-{
+class Listener implements ListenerAggregate {
+
 	protected $layout;
 	protected $listeners = array();
 	protected $staticListeners = array();
 	protected $view;
 	protected $displayExceptions = false;
 
-	public function __construct(Renderer $renderer, $layout = 'layout.phtml')
-	{
+	public function __construct(Renderer $renderer, $layout = 'layout.phtml') {
+
 		$this->view = $renderer;
 		$this->layout = $layout;
 	}
 
-	public function setDisplayExceptionsFlag($flag)
-	{
+	public function setDisplayExceptionsFlag($flag) {
+
 		$this->displayExceptions = (bool) $flag;
 		return $this;
 	}
 
-	public function displayExceptions()
-	{
+	public function displayExceptions() {
+
 		return $this->displayExceptions;
 	}
 
-	public function attach(EventCollection $events)
-	{
+	public function attach(EventCollection $events) {
+
 		$this->listeners[] = $events->attach('dispatch.error', array($this, 'renderError'));
 	}
 
-	public function detach(EventCollection $events)
-	{
+	public function detach(EventCollection $events) {
+
 		foreach ($this->listeners as $key => $listener) {
 			$events->detach($listener);
 			unset($this->listeners[$key]);
@@ -51,14 +51,14 @@ class Listener implements ListenerAggregate
 		}
 	}
 
-	public function registerStaticListeners(StaticEventCollection $events, $locator)
-	{
-		$ident = 'Zend\Mvc\Controller\RestfulController';
-		$handler = $events->attach($ident, 'dispatch', array($this, 'renderActionView'), -50);
-		$this->staticListeners[] = array($ident, $handler);
+	public function registerStaticListeners(StaticEventCollection $events, $locator) {
 
 		$ident = 'Zend\Mvc\Controller\RestfulController';
 		$handler = $events->attach($ident, 'dispatch', array($this, 'renderRestfulView'), -50);
+		$this->staticListeners[] = array($ident, $handler);
+
+		$ident = 'Zend\Mvc\Controller\RestfulController';
+		$handler = $events->attach($ident, 'dispatch', array($this, 'renderActionView'), -50);
 		$this->staticListeners[] = array($ident, $handler);
 
 		$ident = 'Zend\Mvc\Controller\ActionController';
@@ -66,8 +66,8 @@ class Listener implements ListenerAggregate
 		$this->staticListeners[] = array($ident, $handler);
 	}
 
-	public function detachStaticListeners(StaticEventCollection $events)
-	{
+	public function detachStaticListeners(StaticEventCollection $events) {
+
 		foreach ($this->staticListeners as $i => $info) {
 			list($id, $handler) = $info;
 			$events->detach($id, $handler);
@@ -75,16 +75,20 @@ class Listener implements ListenerAggregate
 		}
 	}
 
-	public function renderRestfulView(MvcEvent $e)
-	{
+	public function renderRestfulView(MvcEvent $e) {
+
 		$response = $e->getResponse();
 		if (!$response->isSuccess()) {
 			return;
 		}
 
 		$routeMatch = $e->getRouteMatch();
-		$formatter = $routeMatch->getParam('formatter', 'json');
+		$formatter = $routeMatch->getParam('formatter', false);
 		$script = $formatter . '.phtml';
+
+		if (!$formatter) {
+			return;
+		}
 
 		$vars = $e->getResult();
 		if (is_scalar($vars)) {
@@ -111,8 +115,8 @@ class Listener implements ListenerAggregate
 		return $response;
 	}
 
-	public function renderActionView(MvcEvent $e)
-	{
+	public function renderActionView(MvcEvent $e) {
+
 		$response = $e->getResponse();
 		if (!$response->isSuccess()) {
 			return;
@@ -122,11 +126,6 @@ class Listener implements ListenerAggregate
 		$controller = $routeMatch->getParam('controller', false);
 		$action = $routeMatch->getParam('action', 'index');
 		$script = $controller . '/' . $action . '.phtml';
-
-		$formatter = $routeMatch->getParam('formatter', false);
-		if ($formatter) {
-			return;
-		}
 
 		$vars = $e->getResult();
 		if (is_scalar($vars)) {
@@ -141,8 +140,8 @@ class Listener implements ListenerAggregate
 		return $this->renderLayout($e);
 	}
 
-	public function renderLayout(MvcEvent $e)
-	{
+	public function renderLayout(MvcEvent $e) {
+
 		$response = $e->getResponse();
 		if (!$response) {
 			$response = new Response();
@@ -166,8 +165,8 @@ class Listener implements ListenerAggregate
 		return $response;
 	}
 
-	public function renderError(MvcEvent $e)
-	{
+	public function renderError(MvcEvent $e) {
+
 		$error = $e->getError();
 		$app = $e->getTarget();
 		$response = $e->getResponse();

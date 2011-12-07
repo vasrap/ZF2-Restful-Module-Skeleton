@@ -35,7 +35,7 @@ class Module implements AutoloaderProvider
 	{
 		return include __DIR__ . '/config/module.config.php';
 	}
-	 
+
 	public function initializeView($e)
 	{
 		$app = $e->getParam('application');
@@ -72,9 +72,11 @@ class Module implements AutoloaderProvider
 		$url = $view->plugin('url');
 		$url->setRouter($app->getRouter());
 
-		$view->plugin('headTitle')->setSeparator(' - ')
-								 ->setAutoEscape(false)
-								 ->append('Application');
+		$view
+			->plugin('headTitle')
+			->setSeparator(' - ')
+			->setAutoEscape(false)
+			->append('Application');
 		$this->view = $view;
 		return $view;
 	}
