@@ -7,5 +7,4 @@ return array(
 	'Main\Controller\InfoController'               => __DIR__ . '/src/Main/Controller/InfoController.php',
 	'Main\Controller\CategoryController'           => __DIR__ . '/src/Main/Controller/CategoryController.php',
 	'Main\Controller\ThumbController'              => __DIR__ . '/src/Main/Controller/ThumbController.php',
-	'Main\Controller\ShrinkController'             => __DIR__ . '/src/Main/Controller/ShrinkController.php',
 );
