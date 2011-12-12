@@ -15,16 +15,16 @@ class CategoryController extends RestfulController {
 
 		$data = array();
 
-		for ($i = 0; $i < 10; $i++) {
+		for ($i = 0; $i < 4; $i++) {
 			$data[] = array(
 				'id' => $i,
-				'title' => 'Category-' . $i,
+				'title' => 'CATEGORY-' . $i,
 				'position' => $i,
 				'thumbs' => array(),
 			);
 		}
 
-		return array('message' => $data);
+		return $data;
 	}
 
 	/**

@@ -14,12 +14,13 @@ class InfoController extends RestfulController {
 	public function getList() {
 
 		$data = array(
-			'email' => 'email@email.com',
-			'title' => 'Title title',
-			'intro' => 'Intro intro intro intro intro intro intro intro intro intro intro intro intro intro intro',
+			'name'    => 'KONSTADINOS SIDIRAS',
+			'address' => 'ODOS 48, GALATSI, ATHENS, GR',
+			'phone'   => '+30123456789',
+			'email'   => 'KSIDIRAS@HOTMAIL.COM',
 		);
 
-		return array('message' => $data);
+		return $data;
 	}
 
 	/**

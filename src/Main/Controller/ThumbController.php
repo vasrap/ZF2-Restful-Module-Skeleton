@@ -23,7 +23,7 @@ class ThumbController extends RestfulController {
 
 		$data = array();
 
-		for ($i = 0; $i < 10; $i++) {
+		for ($i = 0; $i < 20; $i++) {
 			$iid = (($id * 10) + $i);
 			$data[] = array(
 				'id' => $iid,
@@ -33,7 +33,7 @@ class ThumbController extends RestfulController {
 			);
 		}
 
-		return array('message' => $data);
+		return $data;
 	}
 
 	/**
