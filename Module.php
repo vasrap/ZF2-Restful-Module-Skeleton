@@ -3,11 +3,11 @@
 namespace Main;
 
 use Zend\Module\Manager,
-	Zend\EventManager\StaticEventManager,
-	Zend\Module\Consumer\AutoloaderProvider;
+    Zend\EventManager\StaticEventManager,
+    Zend\Module\Consumer\AutoloaderProvider;
 
-class Module implements AutoloaderProvider {
-
+class Module implements AutoloaderProvider 
+{
 	public function init(Manager $moduleManager)
 	{
 		$events  = StaticEventManager::getInstance();
