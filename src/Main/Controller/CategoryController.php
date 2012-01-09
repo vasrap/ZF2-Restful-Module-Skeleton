@@ -4,15 +4,15 @@ namespace Main\Controller;
 
 use Zend\Mvc\Controller\RestfulController;
 
-class CategoryController extends RestfulController {
-
+class CategoryController extends RestfulController
+{
 	/**
 	 * Return list of resources
 	 *
 	 * @return array
 	 */
-	public function getList() {
-
+	public function getList()
+	{
 		$data = array();
 
 		for ($i = 0; $i < 4; $i++) {

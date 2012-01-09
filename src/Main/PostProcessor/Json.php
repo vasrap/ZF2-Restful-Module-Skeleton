@@ -2,10 +2,10 @@
 
 namespace Main\PostProcessor;
 
-class Json extends AbstractPostProcessor {
-
-	public function process() {
-
+class Json extends AbstractPostProcessor
+{
+	public function process()
+	{
 		$result = \Zend\Json\Encoder::encode($this->_vars);
 
 		$this->_response->setContent($result);

@@ -2,10 +2,10 @@
 
 namespace Main\PostProcessor;
 
-class Image extends AbstractPostProcessor {
-
-	public function process() {
-
+class Image extends AbstractPostProcessor
+{
+	public function process()
+	{
 		$result = $this->_vars['image'];
 
 		$this->_response->setContent($result);

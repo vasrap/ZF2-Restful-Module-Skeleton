@@ -8,19 +8,16 @@ use Zend\Module\Manager,
 
 class Module implements AutoloaderProvider {
 
-	protected $view;
-	protected $viewListener;
+	public function init(Manager $moduleManager)
+	{
+		$events  = StaticEventManager::getInstance();
 
-	public function init(Manager $moduleManager) {
-
-		$events = StaticEventManager::getInstance();
-
-		$ident = 'Zend\Mvc\Controller\RestfulController';
+		$ident   = 'Zend\Mvc\Controller\RestfulController';
 		$handler = $events->attach($ident, 'dispatch', array($this, 'postProcess'), -100);
 	}
 
-	public function getAutoloaderConfig() {
-
+	public function getAutoloaderConfig()
+	{
 		return array(
 			'Zend\Loader\ClassMapAutoloader' => array(
 				__DIR__ . '/autoload_classmap.php',
@@ -33,25 +30,27 @@ class Module implements AutoloaderProvider {
 		);
 	}
 
-	public function getConfig($env = null) {
-
+	public function getConfig()
+	{
 		return include __DIR__ . '/config/module.config.php';
 	}
 
-	public function postProcess(\Zend\Mvc\MvcEvent $e) {
-
+	public function postProcess(\Zend\Mvc\MvcEvent $e)
+	{
 		$routeMatch = $e->getRouteMatch();
-		$formatter = $routeMatch->getParam('formatter', false);
+		$formatter  = $routeMatch->getParam('formatter', false);
 
 		$di = $e->getTarget()->getLocator();
 
 		if ($formatter !== false) {
 			$postProcessor = $di->get($formatter . '-pp', array(
-				'vars' => $e->getResult(),
+				'vars'     => $e->getResult(),
 				'response' => $e->getResponse()
 			));
 
 			$postProcessor->process();
 		}
+
+		return $e->getResponse();
 	}
 }

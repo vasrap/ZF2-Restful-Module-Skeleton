@@ -4,15 +4,15 @@ namespace Main\Controller;
 
 use Zend\Mvc\Controller\RestfulController;
 
-class InfoController extends RestfulController {
-
+class InfoController extends RestfulController
+{
 	/**
 	 * Return list of resources
 	 *
 	 * @return array
 	 */
-	public function getList() {
-
+	public function getList()
+	{
 		$data = array(
 			'name'    => 'FOO BAR',
 			'address' => 'GLYFADA, ATHENS, GR',

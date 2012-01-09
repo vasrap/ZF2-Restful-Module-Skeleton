@@ -4,8 +4,8 @@ namespace Main\Controller;
 
 use Zend\Mvc\Controller\RestfulController;
 
-class ThumbController extends RestfulController {
-
+class ThumbController extends RestfulController
+{
 	/**
 	 * Return list of resources
 	 *
@@ -19,8 +19,8 @@ class ThumbController extends RestfulController {
 	 * @param mixed $id
 	 * @return array
 	 */
-	public function get($id) {
-
+	public function get($id)
+	{
 		$data = array();
 
 		for ($i = 0; $i < 20; $i++) {

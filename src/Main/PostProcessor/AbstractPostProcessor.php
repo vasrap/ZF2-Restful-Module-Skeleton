@@ -2,8 +2,8 @@
 
 namespace Main\PostProcessor;
 
-abstract class AbstractPostProcessor {
-
+abstract class AbstractPostProcessor
+{
 	protected $_vars = null;
 
 	/**
@@ -11,8 +11,8 @@ abstract class AbstractPostProcessor {
 	 */
 	protected $_response = null;
 
-	public function __construct(array $vars, \Zend\Http\Response $response) {
-
+	public function __construct(array $vars, \Zend\Http\Response $response)
+	{
 		$this->_vars = $vars;
 		$this->_response = $response;
 	}
