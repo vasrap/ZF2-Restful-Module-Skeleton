@@ -1,4 +1,4 @@
-<h1>ZF2 Restful Module Skeleton (BETA)</h1>
+<h1>ZF2 Restful Module Skeleton</h1>
 <h4></h4>
 <p>
   <strong>Based on ZF2 application skeleton</strong>, this module skeleton provides 
