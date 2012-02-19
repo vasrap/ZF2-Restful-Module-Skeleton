@@ -8,7 +8,15 @@
   To learn how to setup Zend Framework 2 click 
   <a target="_blank" href="http://packages.zendframework.com/docs/latest/manual/en/zend.mvc.quick-start.html">here</a>. 
   Once setup, you can clone and 
-  place this skeleton under the "module/Application" folder.
+  place this skeleton under the "module/Main" folder & change zf2 project config file 
+  <strong>/config/application.config.php</strong>:
+  <pre>
+  ...
+    'modules' => array(
+        'Main',
+    ),
+  ...
+  </pre>
 </p>
 <p>
   Example URI implementations included:
