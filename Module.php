@@ -8,6 +8,9 @@ use Zend\Module\Manager,
 
 class Module implements AutoloaderProvider 
 {
+	/**
+	 * @param \Zend\Module\Manager $moduleManager
+	 */
 	public function init(Manager $moduleManager)
 	{
 		$events  = StaticEventManager::getInstance();
@@ -35,6 +38,10 @@ class Module implements AutoloaderProvider
 		return include __DIR__ . '/config/module.config.php';
 	}
 
+	/**
+	 * @param \Zend\Mvc\MvcEvent $e
+	 * @return null|\Zend\Http\PhpEnvironment\Response
+	 */
 	public function postProcess(\Zend\Mvc\MvcEvent $e)
 	{
 		$routeMatch = $e->getRouteMatch();
@@ -44,13 +51,13 @@ class Module implements AutoloaderProvider
 
 		if ($formatter !== false) {
 			$postProcessor = $di->get($formatter . '-pp', array(
-				'vars'     => $e->getResult(),
+				'vars'     => $e->getResult()->getVariables(),
 				'response' => $e->getResponse()
 			));
 
 			$postProcessor->process();
-		}
 
-		return $e->getResponse();
+			return $postProcessor->getResponse();
+		}
 	}
 }
