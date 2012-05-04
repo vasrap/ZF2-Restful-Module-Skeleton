@@ -2,6 +2,9 @@
 
 namespace Main\PostProcessor;
 
+/**
+ *
+ */
 class Image extends AbstractPostProcessor
 {
 	public function process()

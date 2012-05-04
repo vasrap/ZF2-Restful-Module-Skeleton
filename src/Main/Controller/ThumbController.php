@@ -4,6 +4,9 @@ namespace Main\Controller;
 
 use Zend\Mvc\Controller\RestfulController;
 
+/**
+ *
+ */
 class ThumbController extends RestfulController
 {
 	/**

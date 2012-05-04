@@ -6,19 +6,24 @@ use Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
     Zend\Module\Consumer\AutoloaderProvider;
 
-class Module implements AutoloaderProvider 
+/**
+ *
+ */
+class Module implements AutoloaderProvider
 {
 	/**
 	 * @param \Zend\Module\Manager $moduleManager
 	 */
-	public function init(Manager $moduleManager)
+	public function init()
 	{
 		$events  = StaticEventManager::getInstance();
-
 		$ident   = 'Zend\Mvc\Controller\RestfulController';
-		$handler = $events->attach($ident, 'dispatch', array($this, 'postProcess'), -100);
+		$events->attach($ident, 'dispatch', array($this, 'postProcess'), -100);
 	}
 
+	/**
+	 * return array
+	 */
 	public function getAutoloaderConfig()
 	{
 		return array(
@@ -33,6 +38,9 @@ class Module implements AutoloaderProvider
 		);
 	}
 
+	/**
+	 * @return array
+	 */
 	public function getConfig()
 	{
 		return include __DIR__ . '/config/module.config.php';
@@ -51,7 +59,7 @@ class Module implements AutoloaderProvider
 
 		if ($formatter !== false) {
 			$postProcessor = $di->get($formatter . '-pp', array(
-				'vars'     => $e->getResult()->getVariables(),
+				'vars'     => (is_array($e->getResult()) ? $e->getResult() : $e->getResult()->getVariables()),
 				'response' => $e->getResponse()
 			));
 
@@ -59,5 +67,7 @@ class Module implements AutoloaderProvider
 
 			return $postProcessor->getResponse();
 		}
+
+		return null;
 	}
 }

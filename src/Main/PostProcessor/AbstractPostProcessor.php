@@ -2,8 +2,14 @@
 
 namespace Main\PostProcessor;
 
+/**
+ *
+ */
 abstract class AbstractPostProcessor
 {
+	/**
+	 * @var array|null
+	 */
 	protected $_vars = null;
 
 	/**

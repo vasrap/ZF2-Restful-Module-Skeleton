@@ -2,6 +2,9 @@
 
 namespace Main\PostProcessor;
 
+/**
+ *
+ */
 class Json extends AbstractPostProcessor
 {
 	public function process()
