@@ -10,7 +10,7 @@ return array(
 				'json-pp'  => 'Main\PostProcessor\Json',
 				'image-pp' => 'Main\PostProcessor\Image',
 			),
-			'Zend\Mvc\Router\RouteStack' => array(
+			'Zend\Mvc\Router\RouteStackInterface' => array(
 				'parameters' => array(
 					'routes' => array(
 						'restful' => array(

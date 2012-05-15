@@ -14,11 +14,13 @@ class Module implements AutoloaderProvider
 	/**
 	 * @param \Zend\Module\Manager $moduleManager
 	 */
-	public function init()
+	public function init(Manager $moduleManager)
 	{
-		$events  = StaticEventManager::getInstance();
 		$ident   = 'Zend\Mvc\Controller\RestfulController';
-		$events->attach($ident, 'dispatch', array($this, 'postProcess'), -100);
+
+		$events       = $moduleManager->events();
+		$sharedEvents = $events->getSharedManager();
+		$sharedEvents->attach($ident, 'dispatch', array($this, 'postProcess'), -100);
 	}
 
 	/**
@@ -55,9 +57,11 @@ class Module implements AutoloaderProvider
 		$routeMatch = $e->getRouteMatch();
 		$formatter  = $routeMatch->getParam('formatter', false);
 
+		/** @var \Zend\Di\Di $di */
 		$di = $e->getTarget()->getLocator();
 
 		if ($formatter !== false) {
+			/** @var PostProcessor\AbstractPostProcessor $postProcessor */
 			$postProcessor = $di->get($formatter . '-pp', array(
 				'vars'     => (is_array($e->getResult()) ? $e->getResult() : $e->getResult()->getVariables()),
 				'response' => $e->getResponse()
