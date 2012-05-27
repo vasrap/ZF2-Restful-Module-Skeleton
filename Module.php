@@ -2,19 +2,15 @@
 
 namespace Main;
 
-use Zend\Module\Manager,
-    Zend\EventManager\StaticEventManager,
-    Zend\Module\Consumer\AutoloaderProvider;
-
 /**
  *
  */
-class Module implements AutoloaderProvider
+class Module
 {
 	/**
-	 * @param \Zend\Module\Manager $moduleManager
+	 * @param \Zend\ModuleManager\ModuleManager $moduleManager
 	 */
-	public function init(Manager $moduleManager)
+	public function init(\Zend\ModuleManager\ModuleManager $moduleManager)
 	{
 		$ident   = 'Zend\Mvc\Controller\RestfulController';
 
@@ -45,7 +41,7 @@ class Module implements AutoloaderProvider
 	 */
 	public function getConfig()
 	{
-		return include __DIR__ . '/config/module.config.php';
+		return include __DIR__ . '/configs/module.config.php';
 	}
 
 	/**
@@ -58,7 +54,7 @@ class Module implements AutoloaderProvider
 		$formatter  = $routeMatch->getParam('formatter', false);
 
 		/** @var \Zend\Di\Di $di */
-		$di = $e->getTarget()->getLocator();
+		$di = $e->getTarget()->getServiceLocator()->get('di');
 
 		if ($formatter !== false) {
 			/** @var PostProcessor\AbstractPostProcessor $postProcessor */

@@ -18,4 +18,3 @@ class Json extends AbstractPostProcessor
 		$this->_response->setHeaders($headers);
 	}
 }
-
