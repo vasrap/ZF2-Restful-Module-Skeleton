@@ -2,21 +2,26 @@
 
 namespace Main;
 
+use Zend\Mvc\MvcEvent,
+	\Zend\ModuleManager\ModuleManager;
+
 /**
  *
  */
 class Module
 {
 	/**
-	 * @param \Zend\ModuleManager\ModuleManager $moduleManager
+	 * @param ModuleManager $moduleManager
 	 */
-	public function init(\Zend\ModuleManager\ModuleManager $moduleManager)
+	public function init(ModuleManager $moduleManager)
 	{
-		$ident   = 'Zend\Mvc\Controller\RestfulController';
+		$identity = 'Zend\Mvc\Controller\RestfulController';
 
 		$events       = $moduleManager->events();
 		$sharedEvents = $events->getSharedManager();
-		$sharedEvents->attach($ident, 'dispatch', array($this, 'postProcess'), -100);
+
+		$sharedEvents->attach($identity, MvcEvent::EVENT_DISPATCH, array($this, 'postProcess'), -100);
+		$sharedEvents->attach($identity, MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'errorProcess'), 999);
 	}
 
 	/**
@@ -45,10 +50,10 @@ class Module
 	}
 
 	/**
-	 * @param \Zend\Mvc\MvcEvent $e
+	 * @param MvcEvent $e
 	 * @return null|\Zend\Http\PhpEnvironment\Response
 	 */
-	public function postProcess(\Zend\Mvc\MvcEvent $e)
+	public function postProcess(MvcEvent $e)
 	{
 		$routeMatch = $e->getRouteMatch();
 		$formatter  = $routeMatch->getParam('formatter', false);
@@ -69,5 +74,25 @@ class Module
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param MvcEvent $e
+	 * @return null|\Zend\Http\PhpEnvironment\Response
+	 */
+	public function errorProcess(MvcEvent $e)
+	{
+		/** @var \Zend\Di\Di $di */
+		$di = $e->getTarget()->getServiceLocator()->get('di');
+
+		/** @var PostProcessor\Json $jsonPostProcessor */
+		$jsonPostProcessor = $di->get('json-pp', array(
+			'vars'     => (array) $e->getError(),
+			'response' => $e->getResponse()
+		));
+
+		$jsonPostProcessor->process();
+
+		return $jsonPostProcessor->getResponse();
 	}
 }
