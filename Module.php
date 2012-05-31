@@ -15,13 +15,11 @@ class Module
 	 */
 	public function init(ModuleManager $moduleManager)
 	{
-		$identity = 'Zend\Mvc\Controller\RestfulController';
-
 		$events       = $moduleManager->events();
 		$sharedEvents = $events->getSharedManager();
 
-		$sharedEvents->attach($identity, MvcEvent::EVENT_DISPATCH, array($this, 'postProcess'), -100);
-		$sharedEvents->attach($identity, MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'errorProcess'), 999);
+		$sharedEvents->attach('Zend\Mvc\Controller\RestfulController', MvcEvent::EVENT_DISPATCH, array($this, 'postProcess'), -100);
+		$sharedEvents->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'errorProcess'), 999);
 	}
 
 	/**
@@ -85,14 +83,38 @@ class Module
 		/** @var \Zend\Di\Di $di */
 		$di = $e->getTarget()->getServiceLocator()->get('di');
 
-		/** @var PostProcessor\Json $jsonPostProcessor */
-		$jsonPostProcessor = $di->get('json-pp', array(
-			'vars'     => (array) $e->getError(),
+		$eventParams = $e->getParams();
+
+		/** @var array $configuration */
+		$configuration = $e->getApplication()->getConfiguration();
+
+		/** @var \Exception $exception */
+		$exception = $eventParams['exception'];
+
+		$vars = array();
+		if ($configuration['errors']['show_exceptions']['message']) {
+			$vars['error-message'] = $exception->getMessage();
+		}
+		if ($configuration['errors']['show_exceptions']['trace']) {
+			$vars['error-trace'] = $exception->getTrace();
+		}
+
+		if (empty($vars)) {
+			$vars['error'] = 'Something went wrong';
+		}
+
+		/** @var PostProcessor\AbstractPostProcessor $postProcessor */
+		$postProcessor = $di->get($configuration['errors']['post_processor'], array(
+			'vars'     => array('exception: ' => $exception->getMessage()),
 			'response' => $e->getResponse()
 		));
 
-		$jsonPostProcessor->process();
+		$postProcessor->process();
 
-		return $jsonPostProcessor->getResponse();
+		$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_500);
+
+		$e->stopPropagation();
+
+		return $postProcessor->getResponse();
 	}
 }

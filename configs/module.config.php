@@ -1,5 +1,12 @@
 <?php
 return array(
+	'errors' => array(
+		'post_processor' => 'json-pp',
+		'show_exceptions' => array(
+			'message' => true,
+			'trace'   => true
+		)
+	),
 	'di' => array(
 		'instance' => array(
 			'alias' => array(
