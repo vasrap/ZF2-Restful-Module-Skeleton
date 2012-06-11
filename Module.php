@@ -81,7 +81,7 @@ class Module
 	public function errorProcess(MvcEvent $e)
 	{
 		/** @var \Zend\Di\Di $di */
-		$di = $e->getTarget()->getServiceLocator()->get('di');
+		$di = $e->getApplication()->getServiceManager()->get('di');
 
 		$eventParams = $e->getParams();
 
