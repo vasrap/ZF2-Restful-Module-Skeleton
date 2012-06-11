@@ -88,24 +88,26 @@ class Module
 		/** @var array $configuration */
 		$configuration = $e->getApplication()->getConfiguration();
 
-		/** @var \Exception $exception */
-		$exception = $eventParams['exception'];
-
 		$vars = array();
-		if ($configuration['errors']['show_exceptions']['message']) {
-			$vars['error-message'] = $exception->getMessage();
+		if (isset($eventParams['exception'])) {
+			/** @var \Exception $exception */
+			$exception = $eventParams['exception'];
+	
+			if ($configuration['errors']['show_exceptions']['message']) {
+				$vars['error-message'] = $exception->getMessage();
+			}
+			if ($configuration['errors']['show_exceptions']['trace']) {
+				$vars['error-trace'] = $exception->getTrace();
+			}
 		}
-		if ($configuration['errors']['show_exceptions']['trace']) {
-			$vars['error-trace'] = $exception->getTrace();
-		}
-
+		
 		if (empty($vars)) {
 			$vars['error'] = 'Something went wrong';
 		}
 
 		/** @var PostProcessor\AbstractPostProcessor $postProcessor */
 		$postProcessor = $di->get($configuration['errors']['post_processor'], array(
-			'vars'     => array('exception: ' => $exception->getMessage()),
+			'vars'     => $vars,
 			'response' => $e->getResponse()
 		));
 
