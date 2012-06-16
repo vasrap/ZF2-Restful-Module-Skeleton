@@ -27,7 +27,7 @@ return array(
 			'restful' => array(
 				'type'    => 'Zend\Mvc\Router\Http\Segment',
 				'options' => array(
-					'route'       => '/rest/:controller[.:formatter][/:id]',
+					'route'       => '/:controller[.:formatter][/:id]',
 					'constraints' => array(
 						'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
 						'formatter'  => '[a-zA-Z][a-zA-Z0-9_-]*',
