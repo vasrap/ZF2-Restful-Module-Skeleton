@@ -113,7 +113,14 @@ class Module
 
 		$postProcessor->process();
 
-		$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_500);
+		if (
+			$eventParams['error'] === \Zend\Mvc\Application::ERROR_CONTROLLER_NOT_FOUND ||
+			$eventParams['error'] === \Zend\Mvc\Application::ERROR_ROUTER_NO_MATCH
+		) {
+			$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_404);
+		} else {
+			$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_500);
+		}
 
 		$e->stopPropagation();
 
