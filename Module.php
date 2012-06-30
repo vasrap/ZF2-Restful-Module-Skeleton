@@ -15,8 +15,7 @@ class Module
 	 */
 	public function init(ModuleManager $moduleManager)
 	{
-		$events       = $moduleManager->events();
-		$sharedEvents = $events->getSharedManager();
+		$sharedEvents = $moduleManager->getEventManager()->getSharedManager();
 
 		$sharedEvents->attach('Zend\Mvc\Controller\RestfulController', MvcEvent::EVENT_DISPATCH, array($this, 'postProcess'), -100);
 		$sharedEvents->attach('Zend\Mvc\Application', MvcEvent::EVENT_DISPATCH_ERROR, array($this, 'errorProcess'), 999);
