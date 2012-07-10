@@ -24,3 +24,8 @@
 		<li>/info.json - Loads InfoController::getList() and renders through PostProcessor/Json.php</li>
 	</ul>
 </p>
+<h3>Suggestions</h3>
+<p>
+In an effort to make this module better, I encourage you to submit any API or REST related feature requests 
+in the "Issues" section.
+</p>
