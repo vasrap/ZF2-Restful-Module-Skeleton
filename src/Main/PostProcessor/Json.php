@@ -13,7 +13,7 @@ class Json extends AbstractPostProcessor
 
 		$this->_response->setContent($result);
 
-		$headers = $this->_response->headers();
+		$headers = $this->_response->getHeaders();
 		$headers->addHeaderLine('Content-Type', 'application/json');
 		$this->_response->setHeaders($headers);
 	}

@@ -2,12 +2,12 @@
 
 namespace Main\Controller;
 
-use Zend\Mvc\Controller\RestfulController;
+use Zend\Mvc\Controller\AbstractRestfulController;
 
 /**
  *
  */
-class InfoController extends RestfulController
+class InfoController extends AbstractRestfulController
 {
 	/**
 	 * Return list of resources

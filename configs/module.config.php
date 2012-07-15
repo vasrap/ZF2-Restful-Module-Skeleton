@@ -15,11 +15,9 @@ return array(
 			)
 		)
 	),
-	'controller' => array(
-		'classes' => array(
+	'controllers' => array(
+		'invokables' => array(
 			'info'     => 'Main\Controller\InfoController',
-			'category' => 'Main\Controller\CategoryController',
-			'shrink'   => 'Main\Controller\ShrinkController',
 		)
 	),
 	'router' => array(

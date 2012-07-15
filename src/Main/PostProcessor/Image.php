@@ -13,7 +13,7 @@ class Image extends AbstractPostProcessor
 
 		$this->_response->setContent($result);
 
-		$headers = $this->_response->headers();
+		$headers = $this->_response->getHeaders();
 		$headers->addHeaderLine('Content-Type', 'image/' . $this->_vars['type']);
 		$headers->addHeaderLine('Cache-Control', 'max-age=86400');
 		$this->_response->setHeaders($headers);
