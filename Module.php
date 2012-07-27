@@ -2,7 +2,7 @@
 
 namespace Main;
 
-use Zend\Mvc\MvcEvent,
+use \Zend\Mvc\MvcEvent,
 	\Zend\ModuleManager\ModuleManager;
 
 /**
@@ -11,10 +11,14 @@ use Zend\Mvc\MvcEvent,
 class Module
 {
 	/**
-	 * @param ModuleManager $moduleManager
+	 * @param MvcEvent $e
 	 */
-	public function init(ModuleManager $moduleManager)
+	public function onBootstrap($e)
 	{
+		/** @var ModuleManager $moduleManager */
+		$moduleManager = $e->getApplication()->getServiceManager()->get('modulemanager');
+
+		/** @var \Zend\EventManager\SharedEventManager $sharedEvents */
 		$sharedEvents = $moduleManager->getEventManager()->getSharedManager();
 
 		$sharedEvents->attach('Zend\Mvc\Controller\AbstractRestfulController', MvcEvent::EVENT_DISPATCH, array($this, 'postProcess'), -100);
