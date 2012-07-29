@@ -4,5 +4,6 @@ return array(
 	'Main\PostProcessor\AbstractPostProcessor'     => __DIR__ . '/src/Main/PostProcessor/AbstractPostProcessor.php',
 	'Main\PostProcessor\Json'                      => __DIR__ . '/src/Main/PostProcessor/Json.php',
 	'Main\PostProcessor\Image'                     => __DIR__ . '/src/Main/PostProcessor/Image.php',
-	'Main\Controller\InfoController'               => __DIR__ . '/src/Main/Controller/InfoController.php',
+
+	'Main\Controller\InfoController' => __DIR__ . '/src/Main/Controller/InfoController.php',
 );

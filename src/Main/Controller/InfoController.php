@@ -17,10 +17,8 @@ class InfoController extends AbstractRestfulController
 	public function getList()
 	{
 		$data = array(
-			'name'    => 'FOO BAR',
-			'address' => 'GLYFADA, ATHENS, GR',
 			'phone'   => '+30123456789',
-			'email'   => 'EMAIL@DOMAIN.COM',
+			'email'   => 'email@domain',
 		);
 
 		return $data;

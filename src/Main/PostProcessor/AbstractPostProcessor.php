@@ -18,10 +18,10 @@ abstract class AbstractPostProcessor
 	protected $_response = null;
 
 	/**
-	 * @param array $vars
+	 * @param $vars
 	 * @param \Zend\Http\Response $response
 	 */
-	public function __construct(array $vars, \Zend\Http\Response $response)
+	public function __construct(\Zend\Http\Response $response, $vars = null)
 	{
 		$this->_vars = $vars;
 		$this->_response = $response;

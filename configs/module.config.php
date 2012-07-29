@@ -17,7 +17,7 @@ return array(
 	),
 	'controllers' => array(
 		'invokables' => array(
-			'info'     => 'Main\Controller\InfoController',
+			'info' => 'Main\Controller\InfoController',
 		)
 	),
 	'router' => array(

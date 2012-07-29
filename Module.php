@@ -2,8 +2,7 @@
 
 namespace Main;
 
-use \Zend\Mvc\MvcEvent,
-	\Zend\ModuleManager\ModuleManager;
+use Zend\Mvc\MvcEvent;
 
 /**
  *
@@ -15,9 +14,8 @@ class Module
 	 */
 	public function onBootstrap($e)
 	{
-		/** @var ModuleManager $moduleManager */
+		/** @var \Zend\ModuleManager\ModuleManager $moduleManager */
 		$moduleManager = $e->getApplication()->getServiceManager()->get('modulemanager');
-
 		/** @var \Zend\EventManager\SharedEventManager $sharedEvents */
 		$sharedEvents = $moduleManager->getEventManager()->getSharedManager();
 
@@ -57,16 +55,26 @@ class Module
 	public function postProcess(MvcEvent $e)
 	{
 		$routeMatch = $e->getRouteMatch();
-		$formatter  = $routeMatch->getParam('formatter', false);
+		$formatter = $routeMatch->getParam('formatter', false);
 
 		/** @var \Zend\Di\Di $di */
 		$di = $e->getTarget()->getServiceLocator()->get('di');
 
 		if ($formatter !== false) {
+			if ($e->getResult() instanceof \Zend\View\Model\ViewModel) {
+				if (is_array($e->getResult()->getVariables())) {
+					$vars = $e->getResult()->getVariables();
+				} else {
+					$vars = null;
+				}
+			} else {
+				$vars = $e->getResult();
+			}
+
 			/** @var PostProcessor\AbstractPostProcessor $postProcessor */
 			$postProcessor = $di->get($formatter . '-pp', array(
-				'vars'     => (is_array($e->getResult()) ? $e->getResult() : $e->getResult()->getVariables()),
-				'response' => $e->getResponse()
+				'response' => $e->getResponse(),
+				'vars' => $vars,
 			));
 
 			$postProcessor->process();
@@ -89,13 +97,13 @@ class Module
 		$eventParams = $e->getParams();
 
 		/** @var array $configuration */
-		$configuration = $e->getApplication()->getConfiguration();
+		$configuration = $e->getApplication()->getConfig();
 
 		$vars = array();
 		if (isset($eventParams['exception'])) {
 			/** @var \Exception $exception */
 			$exception = $eventParams['exception'];
-	
+
 			if ($configuration['errors']['show_exceptions']['message']) {
 				$vars['error-message'] = $exception->getMessage();
 			}
@@ -103,16 +111,16 @@ class Module
 				$vars['error-trace'] = $exception->getTrace();
 			}
 		}
-		
+
 		if (empty($vars)) {
 			$vars['error'] = 'Something went wrong';
 		}
 
 		/** @var PostProcessor\AbstractPostProcessor $postProcessor */
-		$postProcessor = $di->get($configuration['errors']['post_processor'], array(
-			'vars'     => $vars,
-			'response' => $e->getResponse()
-		));
+		$postProcessor = $di->get(
+			$configuration['errors']['post_processor'],
+			array('vars' => $vars, 'response' => $e->getResponse())
+		);
 
 		$postProcessor->process();
 
@@ -120,7 +128,7 @@ class Module
 			$eventParams['error'] === \Zend\Mvc\Application::ERROR_CONTROLLER_NOT_FOUND ||
 			$eventParams['error'] === \Zend\Mvc\Application::ERROR_ROUTER_NO_MATCH
 		) {
-			$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_404);
+			$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_501);
 		} else {
 			$e->getResponse()->setStatusCode(\Zend\Http\PhpEnvironment\Response::STATUS_CODE_500);
 		}
