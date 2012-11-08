@@ -5,7 +5,7 @@
 </p>
 <p>
 	To learn how to setup Zend Framework 2 click 
-	<a target="_blank" href="http://packages.zendframework.com/docs/latest/manual/en/zend.mvc.quick-start.html">here</a>. 
+	<a target="_blank" href="http://framework.zend.com/wiki/pages/viewpage.action?pageId=42303506">here</a>. 
 	Once setup, you can clone and place this skeleton under the "module/Main" folder.
 	You will also have to change your project's config file (application.config.php) to include this module:
 	<pre>
