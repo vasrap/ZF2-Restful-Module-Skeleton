@@ -11,6 +11,7 @@ return array(
 		'instance' => array(
 			'alias' => array(
 				'json-pp'  => 'Main\PostProcessor\Json',
+				'xml-pp'  => 'Main\PostProcessor\Xml',
 				'image-pp' => 'Main\PostProcessor\Image',
 			)
 		)
