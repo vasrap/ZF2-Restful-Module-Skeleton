@@ -12,6 +12,7 @@ return array(
 			'alias' => array(
 				'json-pp'  => 'Main\PostProcessor\Json',
 				'image-pp' => 'Main\PostProcessor\Image',
+				'phps-pp' => 'Main\PostProcessor\Phps',
 			)
 		)
 	),
