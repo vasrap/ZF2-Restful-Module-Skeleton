@@ -12,7 +12,8 @@ return array(
 			'alias' => array(
 				'json-pp'  => 'Main\PostProcessor\Json',
 				'image-pp' => 'Main\PostProcessor\Image',
-				'phps-pp' => 'Main\PostProcessor\Phps',
+				'xml-pp'   => 'Main\PostProcessor\Xml',
+				'phps-pp'  => 'Main\PostProcessor\Phps',
 			)
 		)
 	),
